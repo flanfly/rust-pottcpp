@@ -16,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
     <link rel="stylesheet" href="css/reveal.css">
-    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="css/theme/solarized.css" id="theme">
 
     <!-- Code syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -52,11 +52,7 @@
         </section>
 
         <section>
-          <h2>Hello, there!</h2>
-          <p>
-            reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-          </p>
-          <pre><code data-trim contenteditable>
+          <pre><code class="rust" data-trim contenteditable>
 fn main() {
     println!("Hello, there!");
 }
@@ -64,11 +60,163 @@ fn main() {
         </section>
 
         <section>
-          <h2>Slides</h2>
+          <ul>
+            <li>No garbage collector</li>
+            <li>No big runtime</li>
+            <li>RAII everywhere</li>
+            <li>Zero-cost abstractions</li>
+          </ul>
+        </section>
+
+        <!-- Rust language concepts are very familiar if you come from a C++
+          background.
+
+          You have heap and stack allocation, type inference, automatic memory,
+          ownership concepts, destructors, and low-level features!
+        -->
+        <section>
+          <table>
+            <thead>
+              <tr>
+                <th>C++</th>
+                <th>Rust</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>auto x = 42;</td>
+                <td>let x = 42;</td>
+              <tr>
+              <tr>
+                <td>std::unique_ptr&lt;T&gt;</td>
+                <td>Box&lt;T&gt;</td>
+              <tr>
+              <tr>
+                <td>std::shared_ptr&lt;T&gt;</td>
+                <td>Rc&lt;T&gt; and Arc&lt;T&gt;</td>
+              <tr>
+              <tr>
+                <td>Destructors</td>
+                <td>trait Drop</td>
+              <tr>
+              <tr>
+                <td>__asm</td>
+                <td>asm! macro</td>
+              <tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Besides expressiveness and all those nice little features.
+        -->
+        <section>
+          <h3>Selling Point?</h3>
+          <p>Quite similar to C++. So why do we need another language?</p>
+        </section>
+
+        <!-- C++ adds to C's type system, which is nearly as weak as
+          JavaScript's ;-)
+
+          In fact, idiomatic C++ tries to increase type richness. Instead of
+          int milliseconds you write std::chrono::milliseconds, right?
+
+          Why do we have type system's at all? To prevent bugs!
+        -->
+        <section>
+          <h3>Selling Point?</h3>
+          <p><b>Rust's type system!</b></p>
+        </section>
+
+        <!-- Actually, Rust's type system can eliminate a whole class of
+          typical nasty bugs!
+        -->
+
+        <section>
+          <pre><code class="cpp">
+void logError(const char* msg, int* ints) {
+    fprintf(stderr, "%s: %i\n", msg, ints[0]);
+}
+
+int main() {
+    int* ptr = (int*)malloc (SIZE);
+    // ...
+    if (err) {
+        abrt = 1;
+        free(ptr);
+    }
+    // ...
+    if (abrt) {
+        logError("operation aborted before commit", ptr);
+    }
+}
+          </code></pre>
           <p>
-            Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
+            <a href="http://cwe.mitre.org/data/definitions/416.html">CWE-416: Use After Free</a>
           </p>
         </section>
+
+        <!-- Not just an error! It has security implications! -->
+
+        <section>
+          <img src="static/use-after-free-1.png" alt="Heap use after free"/>
+        </section>
+
+        <section>
+          <img src="static/use-after-free-2.png" alt="Heap use after free with ASAN"/>
+        </section>
+
+        <section>
+          <p>To catch this in C or C++ you need</p>
+          <ul>
+            <li>Something like ASAN and/or Valgrind's Memcheck</li>
+            <li>Good test coverage</li>
+            <li>And you need to run those tests</li>
+            <li>If code is in one TU: static code analysis <em>might</em> help</li>
+          </ul>
+        </section>
+
+        <section>
+          <p>In Rust, lifetime is part of an object's type</p>
+          <pre><code class="rust">
+fn main() {
+    let x;
+
+    {
+        let y = 5;
+        x = &y;
+    }
+
+    println!("x's value is {}", x);
+}
+          </pre></code>
+        </section>
+
+        <section>
+          <p>And thus, checked at compile time</p>
+          <img src="static/lifetime.png" alt="rustc compile error"/>
+        </section>
+
+        <section>
+          <p>More examples</p>
+        </section>
+
+        <!--
+struct Foo<'a> {
+    x: &'a i32,
+}
+
+fn main() {
+    let x;
+
+    {
+        let y = &5;
+        let f = Foo { x: y };
+        x = &f.x;
+    }
+
+    println!("x's value is {}", x);
+}
+        -->
 
         <section>
           <h2>Who is using Rust?</h2>
@@ -92,53 +240,11 @@ fn main() {
         </section>
 
         <section>
-          <section data-background="#dddddd">
-            <h2>Slide Backgrounds</h2>
-            <p>
-              Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-            </p>
-            <a href="#" class="navigate-down">
-              <img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-            </a>
-          </section>
-          <section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-            <h2>Image Backgrounds</h2>
-            <pre><code>&lt;section data-background="image.png"&gt;</code></pre>
-          </section>
-          <section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-            <h2>Tiled Backgrounds</h2>
-            <pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-          </section>
-          <section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-            <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-              <h2>Video Backgrounds</h2>
-              <pre><code style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-            </div>
-          </section>
-        </section>
-
-        <section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-          <h2>Background Transitions</h2>
-          <p>
-            Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-          </p>
-          <pre><code>Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-        </section>
-
-        <section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-          <h2>Background Transitions</h2>
-          <p>
-            You can override background transitions per-slide.
-          </p>
-          <pre><code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-        </section>
-
-        <section>
           <h2>Small Peek Into Error Handling</h2>
         </section>
 
         <section>
-          <p><a href="http://doc.rust-lang.org/1.0.0-beta.5/std/macro.panic!.html">panic!</a> unwinds the thread</p>
+          <p><a href="http://doc.rust-lang.org/stable/std/macro.panic!.html">panic!</a> unwinds the thread</p>
           <pre><code class="rust" data-trim contenteditable>
 fn guess(n: i32) -&gt; bool {
     if n < 1 || n > 10 {
@@ -155,7 +261,7 @@ fn main() {
 
         <section>
           <p>
-            <a href="http://doc.rust-lang.org/1.0.0-beta.5/std/option/enum.Option.html">std::option::Option</a>
+            <a href="http://doc.rust-lang.org/stable/std/option/enum.Option.html">std::option::Option</a>
           </p>
           <pre><code class="rust" data-trim contenteditable>
 enum Option&lt;T&gt; {
@@ -197,58 +303,7 @@ fn main() {
           </ol>
         </section>
 
-        <section>
-          <h2>Tabular Tables</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Value</th>
-                <th>Quantity</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Apples</td>
-                <td>$1</td>
-                <td>7</td>
-              <tr>
-              <tr>
-                <td>Lemonade</td>
-                <td>$2</td>
-                <td>18</td>
-              <tr>
-              <tr>
-                <td>Bread</td>
-                <td>$3</td>
-                <td>2</td>
-              <tr>
-            </tbody>
-          </table>
-        </section>
-
-        <section>
-          <h2>Clever Quotes</h2>
-          <p>
-            These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-            &ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-          </p>
-          <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-            &ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-            reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-          </blockquote>
-        </section>
-
-        <section>
-          <h2>Intergalactic Interconnections</h2>
-          <p>
-            You can link between slides internally,
-            <a href="#/2/3">like this</a>.
-          </p>
-        </section>
-
       </div>
-
     </div>
 
     <script src="lib/js/head.min.js"></script>
