@@ -411,6 +411,7 @@ if let Employee{ age: 67, ..} = e1 {
 				<section>
 					<h3>Enumerations</h3>
 					<pre><code class="rust" data-trim>
+#[derive(PartialEq)]
 enum Fruit {
 	Apple = 1,
 	Banana = 2,
@@ -420,13 +421,13 @@ enum Fruit {
 					</code></pre>
 					<pre><code class="rust" data-trim>
 fn say_it(fruit: Fruit) {
-	if fruit == Apple {
+	if fruit == Fruit::Apple {
 		println!("Apple");
-	} else if fruit == Banana {
+	} else if fruit == Fruit::Banana {
 		println!("Banana");
-	} else if fruit == Kiwi {
+	} else if fruit == Fruit::Kiwi {
 		println!("Kiwi");
-	} else if fruit == Pineapple {
+	} else if fruit == Fruit::Pineapple {
 		println!("Pineapple");
 	}
 }
@@ -441,10 +442,10 @@ enum NumberOrText {
 }
 					</code></pre>
 					<pre><code class="rust" data-trim>
-fn printNumberOrText(nt: NumberOrText) {
+fn print_number_or_text(nt: NumberOrText) {
 	match nt {
-		Number(i) =&gt; println!("Number: {}",i);
-		Text(t) =&gt; println!("Text: {}",t);
+		NumberOrText::Number(i) =&gt; println!("Number: {}",i),
+		NumberOrText::Text(t) =&gt; println!("Text: {}",t)
 	}
 }
 					</code></pre>
@@ -453,29 +454,50 @@ let a: NumberOrText = Number(42);
 let b: NumberOrText = Text("Hello, World".to_string());
 
 // Prints "Number: 42"
-printNumberOrText(a);
+print_number_or_text(a);
 
 // Prints "Text: Hello, World"
-printNumberOrText(b);
+print_number_or_text(b);
 					</code></pre>
 				</section>
 
 				<section>
 					<h3>Simple Tree Walking</h3>
 					<pre><code class="rust" data-trim>
+use std::boxed::Box;
+use std::ops::Deref;
+
 enum Tree {
-	Leaf(String),
+	Leaf(char),
 	Node(Box&lt;Tree&gt;,Box&lt;Tree&gt;)
 }
 
-fn depthFirstSearch(root: Tree) {
+fn depth_first_search(root: &amp;Tree) {
 	match root {
-		Leaf(s) =&gt; println!(s),
-		Node(left,right) &gt;= {
-			depthFirstSearch(left);
-			depthFirstSearch(right);
+		&amp;Tree::Leaf(s) =&gt; println!("{}",s),
+		&amp;Tree::Node(ref left,ref right) =&gt; {
+			depth_first_search(left.deref());
+			depth_first_search(right.deref())
 		}
 	}
+}
+
+fn main() {
+    let tree =
+      Box::new(Tree::Node(
+        Box::new(Tree::Node(
+          Box::new(Tree::Leaf('H')),
+          Box::new(Tree::Node(
+            Box::new(Tree::Leaf('e')),
+            Box::new(Tree::Leaf('l')))))),
+        Box::new(Tree::Node(
+          Box::new(Tree::Node(
+            Box::new(Tree::Leaf('l')),
+            Box::new(Tree::Leaf('o')))),
+          Box::new(Tree::Leaf('!'))))));
+
+    // Prints "Hello!"
+    depth_first_search(&amp;tree);
 }
 					</code></pre>
 				</section>
@@ -484,20 +506,20 @@ fn depthFirstSearch(root: Tree) {
 					<h3>Simple Tree Walking (cont.)</h3>
 					<pre><code class="rust" data-trim>
 let tree =
-  Node(
-    Node(
-      Leaf('H'),
-      Node(
-        Leaf('e'),
-        Leaf('l'))),
-    Node(
-      Node(
-        Leaf('l'),
-        Leaf('o')),
-      Leaf('!')));
+	Box::new(Tree::Node(
+		Box::new(Tree::Node(
+			Box::new(Tree::Leaf('H')),
+			Box::new(Tree::Node(
+				Box::new(Tree::Leaf('e')),
+				Box::new(Tree::Leaf('l')))))),
+		Box::new(Tree::Node(
+			Box::new(Tree::Node(
+				Box::new(Tree::Leaf('l')),
+				Box::new(Tree::Leaf('o')))),
+			Box::new(Tree::Leaf('!'))))));
 
 // Prints "Hello!"
-depthFirstSearch(tree);
+depth_first_search(&tree);
 					</code></pre>
 				</section>
 
