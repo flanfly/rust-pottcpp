@@ -239,6 +239,101 @@ fn main() {
 					<h2>Crates &amp; Modules</h2>
 				</section>
 
+				<section>
+					<h3>A Crate is the Rust equivalent to a C library or binary</h3>
+					<pre><code class="shell" data-trim>
+rustc hello_world.rs
+./hello_world
+Hello, World!
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>A single source file defines one or more modules.</h3>
+					<p>foo.rs:</p>
+					<pre><code class="rust" data-trim>
+mod foo {
+	fn hello_world() {
+		println!("Hello, World!");
+	}
+
+	mod bar {
+		fn goodbye_world() {
+			println!("Goodbye!");
+		}
+	}
+}
+					</code></pre>
+					<pre><code class="rust" data-trim>
+foo::bar::goodbye_world();
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>A source file can reference other modules</h3>
+					<p>main.rs:</p>
+					<pre><code class="rust" data-trim>
+mod foo;
+
+fn main() {
+	foo::hello_world();
+}
+					</code></pre>
+
+					<pre><code class="shell" data-trim>
+rustc main.rs
+					</code></pre>
+
+					<p>
+						Compiles main.rs and foo.rs into main executable.
+					</p>
+				</section>
+
+				<section>
+					<h3>A source file can reference external modules</h3>
+					<pre><code class="shell" data-trim>
+rustc --crate-type dylib foo.rs
+					</code></pre>
+					<p>main.rs:</p>
+					<pre><code class="rust" data-trim>
+extern crate foo;
+
+fn main() {
+	foo::hello_world();
+}
+					</code></pre>
+
+					<pre><code class="shell" data-trim>
+rustc main.rs
+					</code></pre>
+
+					<p>
+						Compiles main.rs and links foo at run time.
+					</p>
+				</section>
+
+				<section>
+					<h3>Cargo</h3>
+					<pre><code class="shell" data-trim>
+cargo new --bin program_name
+					</code></pre>
+
+					<pre><code class="ini" data-trim>
+[package]
+name = "program_name"
+version = "0.0.1"
+authors = ["Kai Michaelis &lt;kai.michaelis@rub.de&gt;"]
+
+[dependencies]
+num = "~0.0.4"
+slow_primes = "~0.1.4"
+					</code></pre>
+					<p>Downloads all dependencies and builds everything</p>
+					<pre><code class="shell" data-trim>
+cargo build
+					</code></pre>
+				</section>
+
         <section>
           <h2>FFI?</h2>
         </section>
