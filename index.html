@@ -235,6 +235,10 @@ fn main() {
           <img src="static/crates.png" alt="crates.io site screenshot">
         </section>
 
+				<section>
+					<h2>Crates &amp; Modules</h2>
+				</section>
+
         <section>
           <h2>FFI?</h2>
         </section>
@@ -519,7 +523,7 @@ let tree =
 			Box::new(Tree::Leaf('!'))))));
 
 // Prints "Hello!"
-depth_first_search(&tree);
+depth_first_search(&amp;tree);
 					</code></pre>
 				</section>
 
@@ -534,6 +538,8 @@ depth_first_search(&tree);
         <section>
           <h2>Small Peek Into Error Handling</h2>
         </section>
+
+				<!-- Result<>? -->
 
         <section>
           <p><a href="http://doc.rust-lang.org/stable/std/macro.panic!.html">panic!</a> unwinds the thread</p>
