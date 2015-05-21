@@ -70,13 +70,13 @@ fn main() {
           </ul>
         </section>
 
-				<section>
-					<h2>Syntax</h2>
-					<ul>
-						<li>Imperative</li>
-						<li>C/C++-like: curly braces and semicolons as function and statement delimiter.</li>
-						<li>Freeform: indentation isn't significant</li>
-					</ul>
+        <section>
+          <h2>Syntax</h2>
+          <ul>
+            <li>Imperative</li>
+            <li>C/C++-like: curly braces and semicolons as function and statement delimiter.</li>
+            <li>Freeform: indentation isn't significant</li>
+          </ul>
         </section>
 
         <!-- Rust language concepts are very familiar if you come from a C++
@@ -252,90 +252,90 @@ fn main() {
           <img src="static/crates.png" alt="crates.io site screenshot">
         </section>
 
-				<section>
-					<h2>Crates &amp; Modules</h2>
-				</section>
+        <section>
+          <h2>Crates &amp; Modules</h2>
+        </section>
 
-				<section>
-					<h3>A Crate is the Rust equivalent to a C library or binary</h3>
-					<pre><code class="shell" data-trim>
+        <section>
+          <h3>A Crate is the Rust equivalent to a C library or binary</h3>
+          <pre><code class="shell" data-trim>
 rustc hello_world.rs
 ./hello_world
 Hello, World!
-					</code></pre>
-				</section>
+          </code></pre>
+        </section>
 
-				<section>
-					<h3>A single source file defines one or more modules.</h3>
-					<p>foo.rs:</p>
-					<pre><code class="rust" data-trim>
+        <section>
+          <h3>A single source file defines one or more modules.</h3>
+          <p>foo.rs:</p>
+          <pre><code class="rust" data-trim>
 mod foo {
-	fn hello_world() {
-		println!("Hello, World!");
-	}
+  fn hello_world() {
+    println!("Hello, World!");
+  }
 
-	mod bar {
-		fn goodbye_world() {
-			println!("Goodbye!");
-		}
-	}
+  mod bar {
+    fn goodbye_world() {
+      println!("Goodbye!");
+    }
+  }
 }
-					</code></pre>
-					<pre><code class="rust" data-trim>
+          </code></pre>
+          <pre><code class="rust" data-trim>
 foo::bar::goodbye_world();
-					</code></pre>
-				</section>
+          </code></pre>
+        </section>
 
-				<section>
-					<h3>A source file can reference other modules</h3>
-					<p>main.rs:</p>
-					<pre><code class="rust" data-trim>
+        <section>
+          <h3>A source file can reference other modules</h3>
+          <p>main.rs:</p>
+          <pre><code class="rust" data-trim>
 mod foo;
 
 fn main() {
-	foo::hello_world();
+  foo::hello_world();
 }
-					</code></pre>
+          </code></pre>
 
-					<pre><code class="shell" data-trim>
+          <pre><code class="shell" data-trim>
 rustc main.rs
-					</code></pre>
+          </code></pre>
 
-					<p>
-						Compiles main.rs and foo.rs into main executable.
-					</p>
-				</section>
+          <p>
+            Compiles main.rs and foo.rs into main executable.
+          </p>
+        </section>
 
-				<section>
-					<h3>A source file can reference external modules</h3>
-					<pre><code class="shell" data-trim>
+        <section>
+          <h3>A source file can reference external modules</h3>
+          <pre><code class="shell" data-trim>
 rustc --crate-type dylib foo.rs
-					</code></pre>
-					<p>main.rs:</p>
-					<pre><code class="rust" data-trim>
+          </code></pre>
+          <p>main.rs:</p>
+          <pre><code class="rust" data-trim>
 extern crate foo;
 
 fn main() {
-	foo::hello_world();
+  foo::hello_world();
 }
-					</code></pre>
+          </code></pre>
 
-					<pre><code class="shell" data-trim>
+          <pre><code class="shell" data-trim>
 rustc main.rs
-					</code></pre>
+          </code></pre>
 
-					<p>
-						Compiles main.rs and links foo at run time.
-					</p>
-				</section>
+          <p>
+            Compiles main.rs and links foo at run time.
+          </p>
+        </section>
 
-				<section>
-					<h3>Cargo</h3>
-					<pre><code class="shell" data-trim>
+        <section>
+          <h3>Cargo</h3>
+          <pre><code class="shell" data-trim>
 cargo new --bin program_name
-					</code></pre>
+          </code></pre>
 
-					<pre><code class="ini" data-trim>
+          <pre><code class="ini" data-trim>
 [package]
 name = "program_name"
 version = "0.0.1"
@@ -344,12 +344,12 @@ authors = ["Kai Michaelis &lt;kai.michaelis@rub.de&gt;"]
 [dependencies]
 num = "~0.0.4"
 slow_primes = "~0.1.4"
-					</code></pre>
-					<p>Downloads all dependencies and builds everything</p>
-					<pre><code class="shell" data-trim>
+          </code></pre>
+          <p>Downloads all dependencies and builds everything</p>
+          <pre><code class="shell" data-trim>
 cargo build
-					</code></pre>
-				</section>
+          </code></pre>
+        </section>
 
         <section>
           <h2>FFI</h2>
@@ -374,8 +374,8 @@ pub extern fn hello_rust() -&gt; *const u8 {
           <p>Call C code from Rust also pretty easy</p>
           <pre><code class"c" data-trim>
 int sqlite3_open(
-  const char *filename,   /* Database filename (UTF-8) */
-  sqlite3 **ppDb          /* OUT: SQLite db handle */
+    const char *filename,   /* Database filename (UTF-8) */
+    sqlite3 **ppDb          /* OUT: SQLite db handle */
 );
           </code></pre>
           <p>translates basically to</p>
@@ -385,8 +385,8 @@ use libc::c_int,c_char;
 
 #[link(name = "sqlite3")]
 extern {
-  pub fn sqlite3_open(filename: *const c_char,
-                      ppDb: *mut *mut sqlite3) -&gt; c_int;
+    pub fn sqlite3_open(filename: *const c_char,
+                        ppDb: *mut *mut sqlite3) -&gt; c_int;
 }
           </code></pre>
         </section>
@@ -403,214 +403,213 @@ extern {
           <a href="https://crates.io/crates/rusqlite">crates.io/crates/rusqlite</a></p>
         </section>
 
-    
-				<section>
+        <section>
           <h2>Pattern Matching &amp; Deconstruction</h2>
         </section>
 
-				<section>
-					<h3>Types in Rust</h3>
-					<table>
-						<thead><tr><th>Rust</th><th>C++</th></tr></thead>
-						<tbody>
-						<tr>
-							<td><code class="rust" data-trim>
-								bool
-							</code></td>
-							<td><code class="cpp" data-trim>
-								bool
-							</code></td>
-						</tr>
-						<tr>
-							<td><code class="rust" data-trim>
-								u8, u16, u32, u64
-							</code></td>
-							<td><code class="cpp" data-trim>
-								uint8_t, uint16_t, uint32_t, uint64_t
-							</code></td>
-						</tr>
-						<tr>
-							<td><code class="rust" data-trim>
-								i8, i16, i32, i64
-							</code></td>
-							<td><code class="cpp" data-trim>
-								int8_t, int16_t, int32_t, int64_t
-							</code></td>
-						</tr>
-						<tr>
-							<td><code class="rust" data-trim>
-								usize, isize
-							</code></td>
-							<td><code class="cpp" data-trim>
-								uintptr_t, intptr_t
-							</code></td>
-						</tr>
-						<tr>
-							<td><code class="rust" data-trim>
-								f32, f64
-							</code></td>
-							<td><code class="cpp" data-trim>
-								float, double
-							</code></td>
-						</tr>
-						<tr>
-							<td><code class="rust" data-trim>
-								char
-							</code></td>
-							<td><code class="cpp" data-trim>
-								32 bit Unicode code point
-							</code></td>
-						</tr>
-						</tbody>
-					</table>
-				</section>
+        <section>
+          <h3>Types in Rust</h3>
+          <table>
+            <thead><tr><th>Rust</th><th>C++</th></tr></thead>
+            <tbody>
+            <tr>
+              <td><code class="rust" data-trim>
+                bool
+              </code></td>
+              <td><code class="cpp" data-trim>
+                bool
+              </code></td>
+            </tr>
+            <tr>
+              <td><code class="rust" data-trim>
+                u8, u16, u32, u64
+              </code></td>
+              <td><code class="cpp" data-trim>
+                uint8_t, uint16_t, uint32_t, uint64_t
+              </code></td>
+            </tr>
+            <tr>
+              <td><code class="rust" data-trim>
+                i8, i16, i32, i64
+              </code></td>
+              <td><code class="cpp" data-trim>
+                int8_t, int16_t, int32_t, int64_t
+              </code></td>
+            </tr>
+            <tr>
+              <td><code class="rust" data-trim>
+                usize, isize
+              </code></td>
+              <td><code class="cpp" data-trim>
+                uintptr_t, intptr_t
+              </code></td>
+            </tr>
+            <tr>
+              <td><code class="rust" data-trim>
+                f32, f64
+              </code></td>
+              <td><code class="cpp" data-trim>
+                float, double
+              </code></td>
+            </tr>
+            <tr>
+              <td><code class="rust" data-trim>
+                char
+              </code></td>
+              <td><code class="cpp" data-trim>
+                32 bit Unicode code point
+              </code></td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
 
-				<section>
-					<h3>Types in Rust (cont.)</h3>
-					<table>
-						<thead><tr><th>Rust</th><th>C++</th></tr></thead>
-						<tbody>
-						<tr>
-							<td><code class="rust" data-trim>
-								str
-							</code></td>
-							<td><code class="cpp" data-trim>
-								std::string, UTF-8 encoded
-							</code></td>
-						</tr>
-						<tr>
-							<td><code class="rust" data-trim>
-								(A, B, ...)
-							</code></td>
-							<td><code class="cpp" data-trim>
-								std::tuple&lt;A,B,...&gt;
-							</code></td>
-						</tr>
-						<tr>
-							<td><code class="rust" data-trim>
-								[T; N]
-							</code></td>
-							<td><code class="cpp" data-trim>
-								std::array&lt;T,N&gt;
-							</code></td>
-						</tr>
-						<tr>
-							<td><code class="rust" data-trim>
-								&amp;[T]
-							</code></td>
-							<td><code class="cpp" data-trim>
-								Pair of iterators
-							</code></td>
-						</tr>
-						<tr>
-							<td><code class="rust" data-trim>
-								type A = B
-							</code></td>
-							<td><code class="cpp" data-trim>
-								using A = B
-							</code></td>
-						</tr>
-						<tr>
-							<td><code class="rust" data-trim>
-								struct A { ... }
-							</code></td>
-							<td><code class="cpp" data-trim>
-								class A { ... }
-							</code></td>
-						</tr>
-						<tr>
-							<td><code class="rust" data-trim>
-								enum A { ... }
-							</code></td>
-							<td><code class="cpp" data-trim>
-								boost::variant
-							</code></td>
-						</tr>
-						</tbody>
-					</table>
-				</section>
+        <section>
+          <h3>Types in Rust (cont.)</h3>
+          <table>
+            <thead><tr><th>Rust</th><th>C++</th></tr></thead>
+            <tbody>
+            <tr>
+              <td><code class="rust" data-trim>
+                str
+              </code></td>
+              <td><code class="cpp" data-trim>
+                std::string, UTF-8 encoded
+              </code></td>
+            </tr>
+            <tr>
+              <td><code class="rust" data-trim>
+                (A, B, ...)
+              </code></td>
+              <td><code class="cpp" data-trim>
+                std::tuple&lt;A,B,...&gt;
+              </code></td>
+            </tr>
+            <tr>
+              <td><code class="rust" data-trim>
+                [T; N]
+              </code></td>
+              <td><code class="cpp" data-trim>
+                std::array&lt;T,N&gt;
+              </code></td>
+            </tr>
+            <tr>
+              <td><code class="rust" data-trim>
+                &amp;[T]
+              </code></td>
+              <td><code class="cpp" data-trim>
+                Pair of iterators
+              </code></td>
+            </tr>
+            <tr>
+              <td><code class="rust" data-trim>
+                type A = B
+              </code></td>
+              <td><code class="cpp" data-trim>
+                using A = B
+              </code></td>
+            </tr>
+            <tr>
+              <td><code class="rust" data-trim>
+                struct A { ... }
+              </code></td>
+              <td><code class="cpp" data-trim>
+                class A { ... }
+              </code></td>
+            </tr>
+            <tr>
+              <td><code class="rust" data-trim>
+                enum A { ... }
+              </code></td>
+              <td><code class="cpp" data-trim>
+                boost::variant
+              </code></td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
 
-				<section>
-					<h3>Deconstruction</h3>
-					<pre><code class="rust" data-trim>
+        <section>
+          <h3>Deconstruction</h3>
+          <pre><code class="rust" data-trim>
 struct Employee {
-	name: String,
-	age: u8,
-	department: String
+    name: String,
+    age: u8,
+    department: String
 }
-					</code></pre>
-					<pre><code class="rust" data-trim>
+          </code></pre>
+          <pre><code class="rust" data-trim>
 let e1 = Employee {
-	name:       "Kai Michaelis".to_string(),
-	age:        29,
-	department: "Engineering".to_string()
+    name:       "Kai Michaelis".to_string(),
+    age:        29,
+    department: "Engineering".to_string()
 };
 
 let Employee{ name: n, ..} = e1;
 
 // Prints "Hello, I'm Kai Michaelis"
 println!("Hello, I'm {}",n);
-					</code></pre>
+          </code></pre>
         </section>
 
-				<section>
-					<pre><code class="rust" data-trim>
+        <section>
+          <pre><code class="rust" data-trim>
 let e1 = Employee {
-	name:       "Kai Michaelis".to_string(),
-	age:        29,
-	department: "Engineering".to_string()
+    name:       "Kai Michaelis".to_string(),
+    age:        29,
+    department: "Engineering".to_string()
 };
 
 if let Employee{ age: 67, ..} = e1 {
-	println!("Time to retire!");
+    println!("Time to retire!");
 } else {
-	println!("You still got {} years to go",67 - e1.age);
+    println!("You still got {} years to go",67 - e1.age);
 }
-					</code></pre>
+          </code></pre>
         </section>
 
-				<section>
-					<h3>Enumerations</h3>
-					<pre><code class="rust" data-trim>
+        <section>
+          <h3>Enumerations</h3>
+          <pre><code class="rust" data-trim>
 #[derive(PartialEq)]
 enum Fruit {
-	Apple = 1,
-	Banana = 2,
-	Kiwi,
-	Pineapple
+    Apple = 1,
+    Banana = 2,
+    Kiwi,
+    Pineapple
 }
-					</code></pre>
-					<pre><code class="rust" data-trim>
+          </code></pre>
+          <pre><code class="rust" data-trim>
 fn say_it(fruit: Fruit) {
-	if fruit == Fruit::Apple {
-		println!("Apple");
-	} else if fruit == Fruit::Banana {
-		println!("Banana");
-	} else if fruit == Fruit::Kiwi {
-		println!("Kiwi");
-	} else if fruit == Fruit::Pineapple {
-		println!("Pineapple");
-	}
+    if fruit == Fruit::Apple {
+        println!("Apple");
+    } else if fruit == Fruit::Banana {
+        println!("Banana");
+    } else if fruit == Fruit::Kiwi {
+        println!("Kiwi");
+    } else if fruit == Fruit::Pineapple {
+        println!("Pineapple");
+    }
 }
-					</code></pre>
-				</section>
+          </code></pre>
+        </section>
 
-				<section>
-					<pre><code class="rust" data-trim>
+        <section>
+          <pre><code class="rust" data-trim>
 enum NumberOrText {
-	Number(i32),
-	Text(String)
+    Number(i32),
+    Text(String)
 }
-					</code></pre>
-					<pre><code class="rust" data-trim>
+          </code></pre>
+          <pre><code class="rust" data-trim>
 fn print_number_or_text(nt: NumberOrText) {
-	match nt {
-		NumberOrText::Number(i) =&gt; println!("Number: {}",i),
-		NumberOrText::Text(t) =&gt; println!("Text: {}",t)
-	}
+    match nt {
+        NumberOrText::Number(i) =&gt; println!("Number: {}",i),
+        NumberOrText::Text(t) =&gt; println!("Text: {}",t)
+    }
 }
-					</code></pre>
-					<pre><code class="rust" data-trim>
+          </code></pre>
+          <pre><code class="rust" data-trim>
 let a: NumberOrText = Number(42);
 let b: NumberOrText = Text("Hello, World".to_string());
 
@@ -619,68 +618,68 @@ print_number_or_text(a);
 
 // Prints "Text: Hello, World"
 print_number_or_text(b);
-					</code></pre>
-				</section>
+          </code></pre>
+        </section>
 
-				<section>
-					<h3>Simple Tree Walking</h3>
-					<pre><code class="rust" data-trim>
+        <section>
+          <h3>Simple Tree Walking</h3>
+          <pre><code class="rust" data-trim>
 use std::boxed::Box;
 use std::ops::Deref;
 
 enum Tree {
-	Leaf(char),
-	Node(Box&lt;Tree&gt;,Box&lt;Tree&gt;)
+    Leaf(char),
+    Node(Box&lt;Tree&gt;,Box&lt;Tree&gt;)
 }
 
 fn depth_first_search(root: &amp;Tree) {
-	match root {
-		&amp;Tree::Leaf(s) =&gt; println!("{}",s),
-		&amp;Tree::Node(ref left,ref right) =&gt; {
-			depth_first_search(left.deref());
-			depth_first_search(right.deref())
-		}
-	}
+    match root {
+        &amp;Tree::Leaf(s) =&gt; println!("{}",s),
+        &amp;Tree::Node(ref left,ref right) =&gt; {
+            depth_first_search(left.deref());
+            depth_first_search(right.deref())
+        }
+    }
 }
-			</code></pre>
-		</section>
+      </code></pre>
+    </section>
 
-		<section>
-			<h3>Simple Tree Walking (cont.)</h3>
-			<pre><code class="rust" data-trim>
+    <section>
+      <h3>Simple Tree Walking (cont.)</h3>
+      <pre><code class="rust" data-trim>
 fn main() {
     let tree =
       Box::new(Tree::Node(
-        Box::new(Tree::Node(
-          Box::new(Tree::Leaf('H')),
           Box::new(Tree::Node(
-            Box::new(Tree::Leaf('e')),
-            Box::new(Tree::Leaf('l')))))),
-        Box::new(Tree::Node(
-          Box::new(Tree::Node(
-            Box::new(Tree::Leaf('l')),
-            Box::new(Tree::Leaf('o')))),
-          Box::new(Tree::Leaf('!'))))));
+              Box::new(Tree::Leaf('H')),
+              Box::new(Tree::Node(
+                  Box::new(Tree::Leaf('e')),
+                  Box::new(Tree::Leaf('l')))))),
+            Box::new(Tree::Node(
+                Box::new(Tree::Node(
+                    Box::new(Tree::Leaf('l')),
+                    Box::new(Tree::Leaf('o')))),
+                Box::new(Tree::Leaf('!'))))));
 
     // Prints "Hello!"
     depth_first_search(&amp;tree);
 }
-					</code></pre>
-				</section>
+          </code></pre>
+        </section>
 <!--
-				<section>
+        <section>
           <h2>Zero Cost abstractions: Traits</h2>
         </section>
 
-				<section>
+        <section>
           <h2>Ownership & Borrow Checker</h2>
-				</section>-->
+        </section>-->
 
         <section>
           <h2>Small Peek Into Error Handling</h2>
         </section>
 
-				<!-- Result<>? -->
+        <!-- Result<>? -->
 
         <section>
           <p><a href="http://doc.rust-lang.org/stable/std/macro.panic!.html">panic!</a> unwinds the thread</p>
@@ -773,7 +772,7 @@ fn main() {
 
     </script>
 
-		<script type="text/javascript"
+    <script type="text/javascript"
     src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
