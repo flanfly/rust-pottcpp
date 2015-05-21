@@ -69,6 +69,15 @@ fn main() {
           </ul>
         </section>
 
+				<section>
+					<h2>Syntax</h2>
+					<ul>
+						<li>Imperative</li>
+						<li>C/C++-like: curly braces and semicolons as function and statement delimiter.</li>
+						<li>Freeform: indentation isn't significant</li>
+					</ul>
+        </section>
+
         <!-- Rust language concepts are very familiar if you come from a C++
           background.
 
@@ -393,10 +402,7 @@ extern {
           <a href="https://crates.io/crates/rusqlite">crates.io/crates/rusqlite</a></p>
         </section>
 
-        <section>
-					<h2>Syntax</h2>
-        </section>
-
+    
 				<section>
           <h2>Pattern Matching &amp; Deconstruction</h2>
         </section>
@@ -635,7 +641,12 @@ fn depth_first_search(root: &amp;Tree) {
 		}
 	}
 }
+			</code></pre>
+		</section>
 
+		<section>
+			<h3>Simple Tree Walking (cont.)</h3>
+			<pre><code class="rust" data-trim>
 fn main() {
     let tree =
       Box::new(Tree::Node(
@@ -655,35 +666,14 @@ fn main() {
 }
 					</code></pre>
 				</section>
-
-				<section>
-					<h3>Simple Tree Walking (cont.)</h3>
-					<pre><code class="rust" data-trim>
-let tree =
-	Box::new(Tree::Node(
-		Box::new(Tree::Node(
-			Box::new(Tree::Leaf('H')),
-			Box::new(Tree::Node(
-				Box::new(Tree::Leaf('e')),
-				Box::new(Tree::Leaf('l')))))),
-		Box::new(Tree::Node(
-			Box::new(Tree::Node(
-				Box::new(Tree::Leaf('l')),
-				Box::new(Tree::Leaf('o')))),
-			Box::new(Tree::Leaf('!'))))));
-
-// Prints "Hello!"
-depth_first_search(&amp;tree);
-					</code></pre>
-				</section>
-
+<!--
 				<section>
           <h2>Zero Cost abstractions: Traits</h2>
         </section>
 
 				<section>
           <h2>Ownership & Borrow Checker</h2>
-        </section>
+				</section>-->
 
         <section>
           <h2>Small Peek Into Error Handling</h2>
