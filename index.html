@@ -57,13 +57,14 @@ fn main() {
     println!("Hello, there!");
 }
           </code></pre>
+          <p><a href="http://www.rust-lang.org/">rust-lang.org</a></p>
         </section>
 
         <section>
           <ul>
             <li>No garbage collector</li>
             <li>No big runtime</li>
-            <li>RAII everywhere</li>
+            <li>Automatic memory management</li>
             <li>Zero-cost abstractions</li>
           </ul>
         </section>
@@ -175,6 +176,9 @@ int main() {
           </ul>
         </section>
 
+  <!-- TODO ownership, borrowing, mutability, can prevent a lot
+   of data races -->
+
         <section>
           <p>In Rust, lifetime is part of an object's type</p>
           <pre><code class="rust">
@@ -197,7 +201,10 @@ fn main() {
         </section>
 
         <section>
-          <p>More examples</p>
+          <h2>Ownership</h2>
+          <p>Move by default: variables are <em>moved</em> to new locations,
+          preventing previous locations from using it.</p>
+          <p>There is only one owner of data!</p>
         </section>
 
         <!--
@@ -335,7 +342,55 @@ cargo build
 				</section>
 
         <section>
-          <h2>FFI?</h2>
+          <h2>FFI</h2>
+          <p>Calling C from Rust and vice versa</p>
+        </section>
+
+        <section>
+          <h2>FFI</h2>
+          <p>Call Rust code directly from C or C++</p>
+          <!-- All you have to do is turn of Rust's name mangling.
+          -->
+          <pre><code class="rust" data-trim>
+#[no_mangle]
+pub extern fn hello_rust() -&gt; *const u8 {
+    "Hello, world!\0".as_ptr()
+}
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>FFI</h2>
+          <p>Call C code from Rust also pretty easy</p>
+          <pre><code class"c" data-trim>
+int sqlite3_open(
+  const char *filename,   /* Database filename (UTF-8) */
+  sqlite3 **ppDb          /* OUT: SQLite db handle */
+);
+          </code></pre>
+          <p>translates basically to</p>
+          <pre><code class="rust" data-trim>
+extern crate libc;
+use libc::c_int,c_char;
+
+#[link(name = "sqlite3")]
+extern {
+  pub fn sqlite3_open(filename: *const c_char,
+                      ppDb: *mut *mut sqlite3) -&gt; c_int;
+}
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>FFI</h2>
+          <p>You wouldn't do this yourself all the way: there is
+          <a href="https://github.com/crabtw/rust-bindgen">bindgen</a></p>
+        </section>
+
+        <section>
+          <h2>FFI</h2>
+          <p>And of course, you wouldn't do this with sqlite3 because there is already
+          <a href="https://crates.io/crates/rusqlite">crates.io/crates/rusqlite</a></p>
         </section>
 
         <section>
